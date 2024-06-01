@@ -1,0 +1,236 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+.container{
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  background-color: #f1f1f1;
+  height: 90vh;
+  width: 100%;
+}
+
+.complaint-form{
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+  justify-content: space-evenly;
+  text-align: center;
+}
+
+.complaint-form input,
+.complaint-form textarea {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 90%;
+}
+
+.complaint-form button{
+  padding: 1rem;
+  margin: 0;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  height: 40vh;
+  width: 60%;
+  background-color: #f1f1f1;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.login-container:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-message {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+button {
+  background-color: #f1f1f1;
+  color: #000000;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 0.3rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+  border: 1px solid #000;
+  margin: 2rem;
+}
+
+button:hover {
+  background-color: #000;
+  color: #f1f1f1;
+  padding: 1rem 2.5rem;
+}
+
+
+.navbar {
+  
+  background-color: #000000;
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.home-button {
+  background-color: transparent;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  margin-left: 1rem;
+  border: none;
+}
+
+.home-button:hover {
+  opacity: 0.8;
+  padding: 0.5rem 1rem;
+}
+
+
+
+.connected-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f1f1f1;
+}
+
+.connected-header {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.connected-account {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.connected-button {
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 0.3rem;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.connected-button:hover {
+  background-color: #000000;
+}
+
+.connected-contract-address {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+
+.candidates-table {
+  border-collapse: collapse;
+  width: 50%;
+  text-align:center;
+}
+
+.candidates-table th, .candidates-table td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.candidates-table th {
+  background-color: #f2f2f2;
+}
+
+input[type=number] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+button{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.vote-for-complaints {
+  padding: 30px;
+}
+
+.vote-for-complaints-title {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+.complaint-container {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  
+}
+
+.part1{
+  width: 60%;
+}
+
+.complaint-details {
+  display: flex;
+  margin-right: 20px;
+}
+
+.complaint-details p {
+  margin-right: 50px;
+}
+
+.complaint-description {
+}
+
+.vote-buttons {
+  display: flex;
+}
+
+.vote-buttons button {
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+
+
