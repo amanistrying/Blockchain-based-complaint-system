@@ -17,3 +17,7 @@ Once you have pasted your private key and contract address in the .env file, sim
 ```shell
 npm start
 ```
+.env file shall look like this
+API_URL = "https://volta-rpc.energyweb.org"
+PRIVATE_KEY = "{Your prive key here}"
+CONTRACT_ADDRESS = " {Your contract address here}"
