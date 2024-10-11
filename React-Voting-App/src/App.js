@@ -7,6 +7,7 @@ import Connected from './Components/Connected';
 import RegisterComplaint from './Components/RegisterComplaint';
 import VoteForComplaints from './Components/VoteForComplaints';
 import ViewComplaints from './Components/ViewComplaints';
+import AdminDashboard from './Components/AdminDashboard';
 import './App.css';
 
 function App() {
@@ -15,10 +16,52 @@ function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [currentPage, setCurrentPage] = useState('login');
   const [complaints, setComplaints] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [complaintDetails, setComplaintDetails] = useState({
     email: '',
     description: ''
   });
+
+  // Handle User Login
+  async function handleUserLogin() {
+    const accountStatus = await connectToMetamask();
+    console.log(isAdmin);
+    if (accountStatus) {
+        alert("You are an admin. So you have been logged in as User.");
+    } else {
+        alert("Login successful as User.");
+    }
+}
+
+  // Handle Admin Login
+  async function handleAdminLogin() {
+      const accountStatus = await connectToMetamask();
+      
+      if (!accountStatus) {
+          alert("You are not an admin. So you have been logged in as User.");
+      } else {
+          alert("Login successful as Admin.");
+      }
+  }
+
+  async function checkAdminStatus(account) {
+    try {
+
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const contractInstance = new ethers.Contract(contractAddress, contractAbi, signer);
+
+        // Call the isAdmin function on the contract with the account
+        const adminStatus = await contractInstance.isAdmin(account);
+        
+        setIsAdmin(adminStatus); // Update the state
+        console.log(adminStatus);
+        return adminStatus; // Return the admin status for further use
+    } catch (err) {
+        console.error("Error checking admin status:", err);
+        return false; // Return false in case of any error
+    }
+}
 
   async function connectToMetamask() {
     if (window.ethereum) {
@@ -31,7 +74,10 @@ function App() {
         setAccount(address);
         console.log("Metamask Connected : " + address);
         setIsConnected(true);
+        const isAdminStatus = await checkAdminStatus(address); // Check if admin after setting account
+        setIsAdmin(isAdminStatus);
         setCurrentPage('connected');
+        return isAdminStatus;
       } catch (err) {
         console.error(err);
       }
@@ -51,10 +97,14 @@ function App() {
   let pageContent;
   switch (currentPage) {
     case 'login':
-      pageContent = <Login connectWallet={connectToMetamask} />;
+      pageContent = <Login handleUserLogin={handleUserLogin} handleAdminLogin={handleAdminLogin} />;
       break;
     case 'connected':
-      pageContent = <Connected account={account} onPageChange={handlePageChange} />;
+      if (isAdmin) {
+        pageContent = <AdminDashboard account={account} />; // Render Admin Dashboard
+      } else {
+        pageContent = <Connected account={account} isAdmin={isAdmin} onPageChange={handlePageChange} />;
+      }
       break;
     case 'registerComplaint':
       pageContent = <RegisterComplaint
