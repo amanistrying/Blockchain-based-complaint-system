@@ -178,7 +178,11 @@ function App() {
         description: descriptions[index],
         yesVotes: yesVotes[index],
         noVotes: noVotes[index],
+        yesVotePercentage: (yesVotes[index] + noVotes[index]) > 0 ? (yesVotes[index] * 100) / (yesVotes[index] + noVotes[index]) : 0
       }));
+
+      // Sort complaints by yes vote percentage (descending order)
+      const sortedComplaints = formattedComplaints.sort((a, b) => b.yesVotePercentage - a.yesVotePercentage);
 
       setComplaints(formattedComplaints);
     } catch (err) {
