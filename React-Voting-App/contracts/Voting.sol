@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
 contract Voting {
@@ -12,12 +13,50 @@ contract Voting {
         mapping(address => bool) voters;
     }
     
+    address public owner;
+    mapping(address => bool) public admins;
     mapping(uint => Complaint) public complaints;
     uint public totalComplaints;
     
     event ComplaintAdded(uint complaintId, address complainantWallet, string email, string description);
     event Voted(uint complaintId, address voter, string vote);
+    event AdminAdded(address indexed newAdmin);
+    event AdminRemoved(address indexed removedAdmin);
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not the contract owner");
+        _;
+    }
+
+    modifier onlyAdmin() {
+        require(admins[msg.sender], "Not an admin");
+        _;
+    }
+
+    constructor() {
+        owner = msg.sender; // Set the contract deployer as the initial owner
+        admins[owner] = true; // Owner is also an admin
+    }
+
+    // Function to add a new admin
+    function addAdmin(address _admin) external onlyAdmin {
+        require(!admins[_admin], "Already an admin");
+        admins[_admin] = true;
+        emit AdminAdded(_admin);
+    }
+
+    // Function to remove an admin
+    function removeAdmin(address _admin) external onlyAdmin {
+        require(admins[_admin], "Not an admin");
+        admins[_admin] = false;
+        emit AdminRemoved(_admin);
+    }
     
+    // Function to check if an address is an admin
+    function isAdmin(address _admin) external view returns (bool) {
+        return admins[_admin]; // Returns true if _admin is an admin, false otherwise
+    }
+
     // Function to add a complaint
     function addComplaint(string memory _email, string memory _description) public {
         require(bytes(_email).length > 0 && bytes(_description).length > 0, "Email and description must be provided");
