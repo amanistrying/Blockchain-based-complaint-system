@@ -170,6 +170,7 @@ function App() {
       const descriptions = complaintsList[3];
       const yesVotes = complaintsList[4].map(votes => votes.toNumber());
       const noVotes = complaintsList[5].map(votes => votes.toNumber());
+      const statuses = complaintsList[6];
 
       const formattedComplaints = ids.map((id, index) => ({
         id: ids[index],
@@ -178,7 +179,8 @@ function App() {
         description: descriptions[index],
         yesVotes: yesVotes[index],
         noVotes: noVotes[index],
-        yesVotePercentage: (yesVotes[index] + noVotes[index]) > 0 ? (yesVotes[index] * 100) / (yesVotes[index] + noVotes[index]) : 0
+        yesVotePercentage: (yesVotes[index] + noVotes[index]) > 0 ? (yesVotes[index] * 100) / (yesVotes[index] + noVotes[index]) : 0,
+        Status: statuses[index]
       }));
 
       // Sort complaints by yes vote percentage (descending order)
