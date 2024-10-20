@@ -27,7 +27,7 @@ function App() {
     const accountStatus = await connectToMetamask();
     console.log(isAdmin);
     if (accountStatus) {
-        alert("You are an admin. So you have been logged in as User.");
+        alert("You are an admin. So you have been logged in as Admin.");
     } else {
         alert("Login successful as User.");
     }
@@ -101,7 +101,7 @@ function App() {
       break;
     case 'connected':
       if (isAdmin) {
-        pageContent = <AdminDashboard account={account} />; // Render Admin Dashboard
+        pageContent = <AdminDashboard account={account} handleAdminAction={handleAdminAction}/>;
       } else {
         pageContent = <Connected account={account} isAdmin={isAdmin} onPageChange={handlePageChange} />;
       }
@@ -151,9 +151,9 @@ function App() {
   }
 
   // Convert BigNumber to JavaScript number
-  function toNumber(bigNumber) {
+  /*function toNumber(bigNumber) {
     return bigNumber.toNumber();
-  }
+  }*/
 
   async function loadComplaints() {
     try {
@@ -182,7 +182,7 @@ function App() {
       }));
 
       // Sort complaints by yes vote percentage (descending order)
-      const sortedComplaints = formattedComplaints.sort((a, b) => b.yesVotePercentage - a.yesVotePercentage);
+      formattedComplaints.sort((a, b) => b.yesVotePercentage - a.yesVotePercentage);
 
       setComplaints(formattedComplaints);
     } catch (err) {
@@ -260,6 +260,69 @@ function App() {
       ...prevState,
       [name]: value
     }));
+  }
+
+  async function addAdmin(address) {
+    try {
+      // Initialize provider and signer
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contractInstance = new ethers.Contract(contractAddress, contractAbi, signer);
+      
+      // Call the addAdmin function on the smart contract
+      const tx = await contractInstance.addAdmin(address);
+      await tx.wait(); // Wait for the transaction to be mined
+      
+      alert("Admin added successfully!");
+    } catch (error) {
+      // Error handling based on the error message from the smart contract
+      if (error.message.includes("Already an admin")) {
+        alert("The address is already an admin.");
+      } else if (error.message.includes("Not an admin")) {
+        alert("You do not have permission to add admins.");
+      } else {
+        alert("Error adding admin: ");
+      }
+      console.error("Error adding admin:", error);
+    }
+  }
+
+  async function removeAdmin(address) {
+    try {
+      // Initialize provider and signer
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contractInstance = new ethers.Contract(contractAddress, contractAbi, signer);
+      
+      // Call the removeAdmin function on the smart contract
+      const tx = await contractInstance.removeAdmin(address);
+      await tx.wait(); // Wait for the transaction to be mined
+      
+      alert("Admin removed successfully!");
+    } catch (error) {
+      // Error handling based on the error message from the smart contract
+      if (error.message.includes("Not an admin")) {
+        alert("The address is not an admin.");
+      } else if (error.message.includes("You do not have permission")) {
+        alert("You do not have permission to remove admins.");
+      } else {
+        alert("Error removing admin: ");
+      }
+      console.error("Error removing admin:", error);
+    }
+  }
+  
+
+  async function handleAdminAction(address, type){
+    try {
+      if (type === 'add') {
+        await addAdmin(address);
+      } else if (type === 'remove') {
+        await removeAdmin(address);
+      }
+    } catch (error) {
+      console.error("Error in admin action:", error);
+    }
   }
 
   return (
