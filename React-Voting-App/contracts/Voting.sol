@@ -2,6 +2,14 @@
 pragma solidity ^0.8.0;
 
 contract Voting {
+
+    enum Status{
+        Active,
+        In_process,
+        Resolved,
+        Rejected,
+        Verified
+    }
     
     struct Complaint {
         address complainantWallet;
@@ -10,7 +18,17 @@ contract Voting {
         uint yesVotes;
         uint noVotes;
         bool exists;
+        Status status;
         mapping(address => bool) voters;
+    }
+
+    function statusToString(Status status) internal pure returns (string memory) {
+        if (status == Status.Active) return "Active";
+        if (status == Status.In_process) return "In_process";
+        if (status == Status.Resolved) return "Resolved";
+        if (status == Status.Rejected) return "Rejected";
+        if (status == Status.Verified) return "Verified";
+        return "Unknown"; // Fallback case
     }
     
     address public owner;
@@ -68,6 +86,7 @@ contract Voting {
         complaints[totalComplaints].yesVotes = 0;
         complaints[totalComplaints].noVotes = 0;
         complaints[totalComplaints].exists = true;
+        complaints[totalComplaints].status= Status.In_process;
         
         emit ComplaintAdded(totalComplaints, msg.sender, _email, _description);
     }
@@ -91,13 +110,14 @@ contract Voting {
     }
     
     // Function to view all complaints
-    function viewComplaints() public view returns (uint[] memory, address[] memory, string[] memory, string[] memory, uint[] memory, uint[] memory) {
+    function viewComplaints() public view returns (uint[] memory, address[] memory, string[] memory, string[] memory, uint[] memory, uint[] memory, string[] memory) {
         uint[] memory ids = new uint[](totalComplaints);
         address[] memory wallets = new address[](totalComplaints);
         string[] memory emails = new string[](totalComplaints);
         string[] memory descriptions = new string[](totalComplaints);
         uint[] memory yesVotes = new uint[](totalComplaints);
         uint[] memory noVotes = new uint[](totalComplaints);
+        string[] memory statuses = new string[](totalComplaints);
         
         for (uint i = 1; i <= totalComplaints; i++) {
             ids[i - 1] = i;
@@ -106,8 +126,9 @@ contract Voting {
             descriptions[i - 1] = complaints[i].description;
             yesVotes[i - 1] = complaints[i].yesVotes;
             noVotes[i - 1] = complaints[i].noVotes;
+            statuses[i - 1] = statusToString(complaints[i].status);
         }
         
-        return (ids, wallets, emails, descriptions, yesVotes, noVotes);
+        return (ids, wallets, emails, descriptions, yesVotes, noVotes,statuses);
     }
 }
