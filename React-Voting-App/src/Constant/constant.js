@@ -1,4 +1,4 @@
-const contractAddress = "0x43834BF190132913E6DC313c4B103cC328EfbDEb";
+const contractAddress = "0xe7FE54C4B730e1988a0D824E463932DB56dF01CD";
 
 const contractAbi = [
 	{
@@ -208,6 +208,11 @@ const contractAbi = [
 				"internalType": "bool",
 				"name": "exists",
 				"type": "bool"
+			},
+			{
+				"internalType": "enum Voting.Status",
+				"name": "status",
+				"type": "uint8"
 			}
 		],
 		"stateMutability": "view",
@@ -291,6 +296,11 @@ const contractAbi = [
 				"internalType": "uint256[]",
 				"name": "",
 				"type": "uint256[]"
+			},
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
 			}
 		],
 		"stateMutability": "view",
