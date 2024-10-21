@@ -109,6 +109,17 @@ contract Voting {
         emit Voted(_complaintId, msg.sender, _vote);
     }
     
+    // Function to update the status of a complaint manually
+    function updateComplaintStatus(uint _complaintId, Status _newStatus) public onlyAdmin {
+        require(_complaintId > 0 && _complaintId <= totalComplaints, "Invalid complaint ID");
+        require(complaints[_complaintId].exists, "Complaint does not exist");
+
+        // Update the status to the passed new status
+        complaints[_complaintId].status = _newStatus;
+
+        emit StatusUpdated(_complaintId, statusToString(_newStatus));
+    }
+    
     // Function to view all complaints
     function viewComplaints() public view returns (uint[] memory, address[] memory, string[] memory, string[] memory, uint[] memory, uint[] memory, string[] memory) {
         uint[] memory ids = new uint[](totalComplaints);
