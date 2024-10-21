@@ -101,7 +101,7 @@ function App() {
       break;
     case 'connected':
       if (isAdmin) {
-        pageContent = <AdminDashboard account={account} handleAdminAction={handleAdminAction}/>;
+        pageContent = <AdminDashboard account={account} handleAdminAction={handleAdminAction} complaints={complaints} updateComplaintStatus={updateComplaintStatus}/>;
       } else {
         pageContent = <Connected account={account} isAdmin={isAdmin} onPageChange={handlePageChange} />;
       }
@@ -234,6 +234,24 @@ function App() {
       return 0;
     }
   }
+
+  async function updateComplaintStatus(complaintId, newStatus) {
+    try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const contractInstance = new ethers.Contract(contractAddress, contractAbi, signer);
+
+        // Call the updateComplaintStatus function from the smart contract
+        const tx = await contractInstance.updateComplaintStatus(complaintId, newStatus);
+        await tx.wait();
+
+        alert('Complaint status updated successfully!');
+        loadComplaints(); // Reload the complaints after updating the status
+    } catch (err) {
+        console.error("Error updating complaint status:", err);
+    }
+  }
+
 
   async function voteForComplaint(complaintId, voteType) {
     try {
