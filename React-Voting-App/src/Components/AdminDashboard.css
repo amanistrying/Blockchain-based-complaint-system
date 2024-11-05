@@ -1,0 +1,100 @@
+.DashHead{
+    padding: 4px;
+    margin-left: 2%;
+}
+
+.adminPage{
+    display: flex;
+    justify-content: space-between;
+}
+
+.Adminleft{
+    width: 40%;
+    margin-left: 2%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: #f1f1f1;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    max-height: fit-content;
+}
+
+.Adminleft:hover{
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.LeftTitle{
+    width: 100%;
+    padding: 4px;
+
+}
+
+.LeftTitle input{
+    padding-inline: 4px;
+    padding-block: 8px;
+    width: 60%;
+    border: none;
+    border-radius: 5px;
+    color: rgba(177, 177, 177, 0.71);
+}
+
+.Adminright{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    text-align: center;
+    margin-right: 2%;
+}
+
+.complaint-view-section {
+    padding: 10px;
+  }
+  
+  
+  .complaint-list-section {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .single-complaint {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    text-align: left;
+  }
+  
+  .complaint-details-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .complaint-details-section p{
+    padding: 0;
+    margin: 2px;
+  }
+  
+  .complaint-action-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  
+  .complaint-action-section button {
+    margin-top: 5px;
+    margin-bottom: 0;
+    margin-right: 0;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 4px;
+  }
+  
+  

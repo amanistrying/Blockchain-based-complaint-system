@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import {contractAbi, contractAddress  } from '../Constant/constant'
+import { contractAbi, contractAddress } from '../Constant/constant'
 import AdminViewComplaint from './AdminViewComplaint';
+import "./AdminDashboard.css"
 
 const AdminDashboard = (props) => {
   const [complaints, setComplaints] = useState([]);
   const [address, setAddress] = useState('');
   const [showComplaint, setShowComplaint] = useState(false);
-  
+
   useEffect(() => {
     async function loadComplaints() {
       try {
@@ -17,7 +18,7 @@ const AdminDashboard = (props) => {
         console.log("Contract Instance:", contractInstance);
         console.log("Account:", props.account);
         const complaintsList = await contractInstance.viewComplaints();
-  
+
         const ids = complaintsList[0].map(id => id.toNumber());
         const wallets = complaintsList[1];
         const emails = complaintsList[2];
@@ -25,7 +26,7 @@ const AdminDashboard = (props) => {
         const yesVotes = complaintsList[4].map(votes => votes.toNumber());
         const noVotes = complaintsList[5].map(votes => votes.toNumber());
         const statuses = complaintsList[6];
-  
+
         const formattedComplaints = ids.map((id, index) => ({
           id: ids[index],
           complainantWallet: wallets[index],
@@ -36,10 +37,10 @@ const AdminDashboard = (props) => {
           yesVotePercentage: (yesVotes[index] + noVotes[index]) > 0 ? (yesVotes[index] * 100) / (yesVotes[index] + noVotes[index]) : 0,
           Status: statuses[index]
         }));
-  
+
         // Sort complaints by yes vote percentage (descending order)
         formattedComplaints.sort((a, b) => b.yesVotePercentage - a.yesVotePercentage);
-  
+
         setComplaints(formattedComplaints);
       } catch (err) {
         console.error("Error loading complaints:", err);
@@ -50,24 +51,35 @@ const AdminDashboard = (props) => {
 
   return (
     <div>
-      <h2>Admin Dashboard</h2>
-      <p>Welcome, Admin {props.account}!</p>
-      <div>
-        <h3>Add admin</h3>
-        <input
-          type="text"
-          placeholder="Enter admin address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-        />
-        <div className="button-group">
-          <button onClick={() => props.handleAdminAction(address, 'add')}>Add Admin</button>
-          <button onClick={() => props.handleAdminAction(address, 'remove')}>Remove Admin</button>
+      <div className='DashHead'>
+        <h1>Admin Dashboard</h1>
+        <p>Welcome, Admin {props.account}!</p>
+      </div>
+      <div className='adminPage'>
+        <div className='Adminleft'>
+          <div className='LeftTitle'>
+            <h2>Add new Admin?</h2>
+            <input
+              type="text"
+              placeholder="Enter admin address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </div>
+          <div>
+            <button onClick={() => props.handleAdminAction(address, 'add')}>Add Admin</button>
+            <button onClick={() => props.handleAdminAction(address, 'remove')}>Remove Admin</button>
+
+          </div>
+        </div>
+        <div className='Adminright'>
+          <h2>Show all registered complaints</h2>
+          <div>
           {!showComplaint && <button onClick={() => setShowComplaint(true)}>Show Complaints</button>}
           {showComplaint && <button onClick={() => setShowComplaint(false)}>Hide Complaints</button>}
+          {showComplaint && <AdminViewComplaint complaints={complaints} updateComplaintStatus={props.updateComplaintStatus} />}
+          </div>
         </div>
-        
-        {showComplaint && <AdminViewComplaint complaints={complaints} updateComplaintStatus={props.updateComplaintStatus}/>}
       </div>
     </div>
   );

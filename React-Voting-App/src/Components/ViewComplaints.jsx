@@ -12,19 +12,21 @@ function ViewComplaints({ complaints }) {
   return (
     <div className="view-complaints">
       <h2>View Complaints</h2>
-      <ul>
+      <ul className="complaints-list">
         {complaints.map((complaint, index) => (
-          <li key={index}>
+          <li key={index} className="complaint-item">
             <p><strong>ID:</strong> {complaint.id}</p>
             <p><strong>Email:</strong> {complaint.email}</p>
             <p><strong>Description:</strong> {complaint.description}</p>
-            <p><strong>Yes Votes:</strong> {complaint.yesVotes }</p>
-            <p><strong>No Votes:</strong> {complaint.noVotes }</p>
+            <p><strong>Yes Votes:</strong> {complaint.yesVotes}</p>
+            <p><strong>No Votes:</strong> {complaint.noVotes}</p>
             <p><strong>Status:</strong> {formatStatus(complaint.Status)}</p>
           </li>
         ))}
       </ul>
     </div>
+
+
   );
 }
 
